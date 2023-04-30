@@ -16,7 +16,7 @@ function Game() {
     <div className="game">
       <div className="game-info">
         <div className="logo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" srcset="" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt=""/>
         </div> 
         <div className="status">
           Status: {winner}  
