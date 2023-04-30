@@ -355,6 +355,7 @@ function Square(props) {
     if (start) {
       const position = { row, col };
       dispatch(ClickPlay(position));
+      checkWin()
       if (checkWin()) {
         dispatch({
           type: "GameOver"
