@@ -356,21 +356,20 @@ function Square(props) {
       const position = { row, col };
       dispatch(ClickPlay(position));
       checkWin()
-      if (checkWin()) {
-        dispatch({
-          type: "GameOver"
-        })
+      if (!start) {
+        
       } else {
         if (player === 1) {
           let move = findMoveAi();
           dispatch(ClickPlay(move));
+          checkWin()
         }
-        console.log(checkWin());
-        if (checkWin()) {
-          dispatch({
-            type: "GameOver"
-          })
-        }
+        // console.log(checkWin());
+        // if (checkWin()) {
+        //   dispatch({
+        //     type: "GameOver"
+        //   })
+        // }
       }
     }
   };
