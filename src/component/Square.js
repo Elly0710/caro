@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {ClickPlay, gameOver} from "../redux/action";
+import { ClickPlay, gameOver } from "../redux/action";
 // import gameOver from "../redux/action";
-import X from '../assets/x.png'
-import O from '../assets/o.png'
+import X from "../assets/x.png";
+import O from "../assets/o.png";
 
 function Square(props) {
   const { value, col, row } = props;
@@ -11,17 +11,18 @@ function Square(props) {
   const { numberOfmoves, player, ROW, COL, board, start } = useSelector(
     (state) => state.game
   );
-  const ARRATTACK = [ 0, 64, 4096, 262144, 16777216, 1073741824 ];
-  const ARRDEFENSE = [ 0, 8, 512, 32768, 2097152, 134217728 ];
+  const ARRATTACK = [0, 64, 4096, 262144, 16777216, 1073741824];
+  const ARRDEFENSE = [0, 8, 512, 32768, 2097152, 134217728];
 
   const findMoveAi = () => {
     let position = {};
     let maxPoint = 0;
-    let tempPoint
+    let tempPoint;
     for (let i = 0; i < ROW; i++) {
       for (let j = 0; j < COL; j++) {
         if (board[i][j] === 0) {
-          let attackPoint = attackPoint_duyetDoc(i, j) +
+          let attackPoint =
+            attackPoint_duyetDoc(i, j) +
             attackPoint_duyetNgang(i, j) +
             attackPoint_duyetCheoXuoi(i, j) +
             attackPoint_duyetCheoNguoc(i, j);
@@ -30,21 +31,21 @@ function Square(props) {
             defensePoint_duyetNgang(i, j) +
             defensePoint_duyetCheoXuoi(i, j) +
             defensePoint_duyetCheoNguoc(i, j);
-          
+
           if (attackPoint > defensePoint) {
-            if(maxPoint < attackPoint){
+            if (maxPoint < attackPoint) {
               maxPoint = attackPoint;
               position = {
                 row: i,
                 col: j,
               };
-            }else{
-              if(maxPoint < defensePoint){
-                maxPoint = defensePoint
+            } else {
+              if (maxPoint < defensePoint) {
+                maxPoint = defensePoint;
                 position = {
                   row: i,
                   col: j,
-                };  
+                };
               }
             }
           }
@@ -59,7 +60,7 @@ function Square(props) {
     let totalPoint = 0;
     let numberOfPlayer = 0;
     let numberOfBOT = 0;
-    let numberOfPlayer2= 0;
+    let numberOfPlayer2 = 0;
     let numberOfBOT2 = 0;
 
     for (let count = 1; count < 6 && currRow + count < ROW; count++) {
@@ -69,9 +70,9 @@ function Square(props) {
       if (board[currRow + count][currCol] === 2) {
         numberOfBOT++;
         break;
-      } 
+      }
       if (board[currRow + count][currCol] === 0) {
-        for(let count2 = 2; count2 < 7 && currRow + count2 < ROW;count2++) {
+        for (let count2 = 2; count2 < 7 && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol] === 1) {
             numberOfPlayer2++;
           }
@@ -79,8 +80,8 @@ function Square(props) {
             numberOfBOT2++;
             break;
           }
-          if (board[currRow + count2][currCol] === 0){
-            break
+          if (board[currRow + count2][currCol] === 0) {
+            break;
           }
         }
         break;
@@ -95,16 +96,16 @@ function Square(props) {
         break;
       }
       if (board[currRow - count][currCol] === 0) {
-        for(let count2 = 2; count2 < 7 && currRow - count2 >= 0;count2++) {
+        for (let count2 = 2; count2 < 7 && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol] === 1) {
             numberOfPlayer2++;
-          } 
+          }
           if (board[currRow - count2][currCol] === 2) {
             numberOfBOT2++;
             break;
           }
-          if (board[currRow - count2][currCol] === 0){
-            break
+          if (board[currRow - count2][currCol] === 0) {
+            break;
           }
         }
         break;
@@ -114,37 +115,37 @@ function Square(props) {
     if (numberOfBOT === 2) {
       return 0;
     }
-    if(numberOfBOT === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer]
+    if (numberOfBOT === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer];
     }
 
-    if(numberOfBOT2 === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer2] *2
-    }else{
-      totalPoint += ARRATTACK[numberOfPlayer2]
+    if (numberOfBOT2 === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer2] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer2];
     }
 
-    if(numberOfPlayer >= numberOfPlayer2) {
-      totalPoint -= 1
-    }else{
-      totalPoint -= 2
+    if (numberOfPlayer >= numberOfPlayer2) {
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
 
-    if(numberOfPlayer === 4) {
-      totalPoint *= 2
+    if (numberOfPlayer === 4) {
+      totalPoint *= 2;
     }
-    if(numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT] * 2
-    }else{
-      totalPoint += ARRDEFENSE[numberOfBOT]
+    if (numberOfPlayer === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT];
     }
 
-    if(numberOfPlayer2 === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT] * 2
-    }else{
-      totalPoint += ARRDEFENSE[numberOfBOT]
+    if (numberOfPlayer2 === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT];
     }
     // totalPoint -= ARRDEFENSE[numberOfBOT + 1];
     // totalPoint += ARRATTACK[numberOfPlayer];
@@ -165,14 +166,14 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol + count2 < COL; count2++) {
+        for (let count2 = 2; count2 < 7 && currCol + count2 < COL; count2++) {
           if (board[currRow][currCol + count2] === 1) {
             numberOfPlayer2++;
           } else if (board[currRow][currCol + count2] === 2) {
             numberOfBOT2++;
             break;
-          }else{
-            break
+          } else {
+            break;
           }
         }
         break;
@@ -185,14 +186,14 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol + count2 >= 0; count2++) {
+        for (let count2 = 2; count2 < 7 && currCol + count2 >= 0; count2++) {
           if (board[currRow][currCol - count2] === 1) {
             numberOfPlayer2++;
           } else if (board[currRow][currCol - count2] === 2) {
             numberOfBOT2++;
             break;
-          }else{
-            break
+          } else {
+            break;
           }
         }
         break;
@@ -202,39 +203,38 @@ function Square(props) {
     if (numberOfBOT === 2) {
       return 0;
     }
-    if(numberOfBOT === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer]
+    if (numberOfBOT === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer];
     }
-    if(numberOfBOT2 === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer2] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer2]
-    }
-
-    if(numberOfPlayer >= numberOfPlayer2){
-      totalPoint -= 1
-    }else{
-      totalPoint -= 2
+    if (numberOfBOT2 === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer2] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer2];
     }
 
-    if(numberOfPlayer === 4){
-      totalPoint *= 2
-    }
-    
-    if(numberOfPlayer === 0){
-      totalPoint += ARRDEFENSE[numberOfBOT] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT]
+    if (numberOfPlayer >= numberOfPlayer2) {
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
 
-    if(numberOfPlayer2 === 0){
-      totalPoint += ARRDEFENSE[numberOfBOT2] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT2]
+    if (numberOfPlayer === 4) {
+      totalPoint *= 2;
     }
-    
+
+    if (numberOfPlayer === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT];
+    }
+
+    if (numberOfPlayer2 === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT2];
+    }
 
     // totalPoint -= ARRDEFENSE[numberOfBOT + 1];
     // totalPoint += ARRATTACK[numberOfPlayer];
@@ -259,14 +259,18 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW; count2++) {
+        for (
+          let count2 = 2;
+          count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW;
+          count2++
+        ) {
           if (board[currRow + count2][currCol + count2] === 1) {
             numberOfPlayer2++;
           } else if (board[currRow + count2][currCol + count2] === 2) {
             numberOfBOT2++;
             break;
-          }else{
-            break
+          } else {
+            break;
           }
         }
         break;
@@ -283,14 +287,18 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol - count2 >= 0 && currRow - count2 >= 0; count2++) {
+        for (
+          let count2 = 2;
+          count2 < 7 && currCol - count2 >= 0 && currRow - count2 >= 0;
+          count2++
+        ) {
           if (board[currRow - count2][currCol - count2] === 1) {
             numberOfPlayer2++;
           } else if (board[currRow - count2][currCol - count2] === 2) {
             numberOfBOT2++;
             break;
-          }else{
-            break
+          } else {
+            break;
           }
         }
         break;
@@ -300,39 +308,38 @@ function Square(props) {
       return 0;
     }
 
-    if(numberOfBOT === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer]
+    if (numberOfBOT === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer];
     }
 
-    if(numberOfBOT2 === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer2] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer2]
+    if (numberOfBOT2 === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer2] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer2];
     }
 
-    if(numberOfPlayer >= numberOfPlayer2) {
-      totalPoint -= 1
-    }else{
-      totalPoint -= 2
+    if (numberOfPlayer >= numberOfPlayer2) {
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
 
-    if(numberOfPlayer === 4) {
-      totalPoint *= 2
+    if (numberOfPlayer === 4) {
+      totalPoint *= 2;
     }
 
-    if(numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT]
+    if (numberOfPlayer === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT];
     }
 
-    
-    if(numberOfPlayer2 === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT2] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT2]
+    if (numberOfPlayer2 === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT2];
     }
 
     // totalPoint -= ARRDEFENSE[numberOfBOT + 1];
@@ -357,17 +364,20 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; currCol + count2 < COL && currRow - count2 >= 0;
-          count2++ ){
-            if (board[currRow - count2][currCol + count2] === 1) {
-              numberOfPlayer2++;
-            } else if (board[currRow - count2][currCol + count2] === 2) {
-              numberOfBOT2++;
-              break;
-            } else {
-              break
-            }
+        for (
+          let count2 = 2;
+          currCol + count2 < COL && currRow - count2 >= 0;
+          count2++
+        ) {
+          if (board[currRow - count2][currCol + count2] === 1) {
+            numberOfPlayer2++;
+          } else if (board[currRow - count2][currCol + count2] === 2) {
+            numberOfBOT2++;
+            break;
+          } else {
+            break;
           }
+        }
         break;
       }
     }
@@ -382,17 +392,20 @@ function Square(props) {
         numberOfBOT++;
         break;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol - count2 >= 0 && currRow + count2 < ROW;
-          count2++ ){
-            if (board[currRow + count2][currCol - count2] === 1) {
-              numberOfPlayer2++;
-            } else if (board[currRow + count2][currCol - count2] === 2) {
-              numberOfBOT2++;
-              break;
-            } else {
-              break
-            }
+        for (
+          let count2 = 2;
+          count2 < 7 && currCol - count2 >= 0 && currRow + count2 < ROW;
+          count2++
+        ) {
+          if (board[currRow + count2][currCol - count2] === 1) {
+            numberOfPlayer2++;
+          } else if (board[currRow + count2][currCol - count2] === 2) {
+            numberOfBOT2++;
+            break;
+          } else {
+            break;
           }
+        }
         break;
       }
     }
@@ -401,38 +414,38 @@ function Square(props) {
       return 0;
     }
 
-    if(numberOfBOT === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer]
+    if (numberOfBOT === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer];
     }
 
-    if(numberOfBOT2 === 0) {
-      totalPoint += ARRATTACK[numberOfPlayer2] * 2
-    }else {
-      totalPoint += ARRATTACK[numberOfPlayer2]
+    if (numberOfBOT2 === 0) {
+      totalPoint += ARRATTACK[numberOfPlayer2] * 2;
+    } else {
+      totalPoint += ARRATTACK[numberOfPlayer2];
     }
 
-    if(numberOfPlayer >= numberOfPlayer2) {
-      totalPoint -= 1
-    }else{
-      totalPoint -= 2
+    if (numberOfPlayer >= numberOfPlayer2) {
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
 
-    if(numberOfPlayer === 4) {
-      totalPoint *= 2
+    if (numberOfPlayer === 4) {
+      totalPoint *= 2;
     }
 
-    if(numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT]
+    if (numberOfPlayer === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT];
     }
 
-    if(numberOfPlayer2 === 0) {
-      totalPoint += ARRDEFENSE[numberOfBOT2] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfBOT2]
+    if (numberOfPlayer2 === 0) {
+      totalPoint += ARRDEFENSE[numberOfBOT2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfBOT2];
     }
 
     // totalPoint -= ARRDEFENSE[numberOfBOT + 1];
@@ -453,14 +466,14 @@ function Square(props) {
       } else if (board[currRow + count][currCol] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2; count2 < 7 && currRow + count2 < ROW; count2++){
+        for (let count2 = 2; count2 < 7 && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol] === 1) {
             numberOfPlayer2++;
             break;
           } else if (board[currRow + count2][currCol] === 2) {
             numberOfBOT2++;
-          }else {
-            break
+          } else {
+            break;
           }
         }
         break;
@@ -473,14 +486,14 @@ function Square(props) {
       } else if (board[currRow - count][currCol] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2; count2 < 7 && currRow - count2 >= 0; count2++){
+        for (let count2 = 2; count2 < 7 && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol] === 1) {
             numberOfPlayer2++;
             break;
           } else if (board[currRow - count2][currCol] === 2) {
             numberOfBOT2++;
           } else {
-            break
+            break;
           }
         }
         break;
@@ -492,18 +505,18 @@ function Square(props) {
     }
 
     if (numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfPlayer]
+      totalPoint += ARRDEFENSE[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfPlayer];
     }
 
     if (numberOfBOT >= numberOfBOT2) {
-      totalPoint -= 1
-    }else {
-      totalPoint -= 2
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
     if (numberOfBOT === 4) {
-      totalPoint *= 2
+      totalPoint *= 2;
     }
     // totalPoint += ARRDEFENSE[numberOfBOT];
     return totalPoint;
@@ -530,7 +543,7 @@ function Square(props) {
           } else if (board[currRow][currCol + count2] === 2) {
             numberOfBOT2++;
           } else {
-            break
+            break;
           }
         }
         break;
@@ -543,14 +556,14 @@ function Square(props) {
       } else if (board[currRow][currCol - count] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 1; count2 < 7 && currCol - count2 >= 0; count2++) {
+        for (let count2 = 1; count2 < 7 && currCol - count2 >= 0; count2++) {
           if (board[currRow][currCol - count2] === 1) {
             numberOfPlayer2++;
             break;
           } else if (board[currRow][currCol - count2] === 2) {
             numberOfBOT2++;
           } else {
-            break
+            break;
           }
         }
         break;
@@ -562,18 +575,18 @@ function Square(props) {
     }
 
     if (numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfPlayer]
+      totalPoint += ARRDEFENSE[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfPlayer];
     }
 
     if (numberOfBOT >= numberOfBOT2) {
-      totalPoint -= 1
-    }else {
-      totalPoint -= 2
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
     if (numberOfBOT === 4) {
-      totalPoint *= 2
+      totalPoint *= 2;
     }
 
     // totalPoint += ARRDEFENSE[numberOfBOT];
@@ -597,14 +610,18 @@ function Square(props) {
       } else if (board[currRow + count][currCol + count] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2; count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW; count2++) {
+        for (
+          let count2 = 2;
+          count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW;
+          count2++
+        ) {
           if (board[currRow + count2][currCol + count2] === 1) {
             numberOfPlayer2++;
             break;
           } else if (board[currRow + count2][currCol + count2] === 2) {
             numberOfBOT2++;
           } else {
-            break
+            break;
           }
         }
         break;
@@ -621,18 +638,20 @@ function Square(props) {
       } else if (board[currRow - count][currCol - count] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2;
+        for (
+          let count2 = 2;
           count < 7 && currCol - count2 >= 0 && currRow - count2 >= 0;
-          count2++) {
-            if (board[currRow - count2][currCol - count2] === 1) {
-              numberOfPlayer2++;
-              break;
-            } else if (board[currRow - count2][currCol - count2] === 2) {
-              numberOfBOT2++;
-            } else {
-              break
-            }
+          count2++
+        ) {
+          if (board[currRow - count2][currCol - count2] === 1) {
+            numberOfPlayer2++;
+            break;
+          } else if (board[currRow - count2][currCol - count2] === 2) {
+            numberOfBOT2++;
+          } else {
+            break;
           }
+        }
         break;
       }
     }
@@ -641,18 +660,18 @@ function Square(props) {
     }
 
     if (numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfPlayer]
+      totalPoint += ARRDEFENSE[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfPlayer];
     }
 
     if (numberOfBOT >= numberOfBOT2) {
-      totalPoint -= 1
-    }else {
-      totalPoint -= 2
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
     if (numberOfBOT === 4) {
-      totalPoint *= 2
+      totalPoint *= 2;
     }
 
     // totalPoint += ARRDEFENSE[numberOfPlayer];
@@ -676,18 +695,20 @@ function Square(props) {
       } else if (board[currRow - count][currCol + count] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2;
+        for (
+          let count2 = 2;
           count < 7 && currCol + count2 < COL && currRow - count2 >= 0;
-          count2++) {
-            if (board[currRow - count2][currCol + count2] === 1) {
-              numberOfPlayer2++;
-              break;
-            } else if (board[currRow - count2][currCol + count2] === 2) {
-              numberOfBOT2++;
-            } else {
-              break
-            }
+          count2++
+        ) {
+          if (board[currRow - count2][currCol + count2] === 1) {
+            numberOfPlayer2++;
+            break;
+          } else if (board[currRow - count2][currCol + count2] === 2) {
+            numberOfBOT2++;
+          } else {
+            break;
           }
+        }
         break;
       }
     }
@@ -702,18 +723,20 @@ function Square(props) {
       } else if (board[currRow + count][currCol - count] === 2) {
         numberOfBOT++;
       } else {
-        for(let count2 = 2;
+        for (
+          let count2 = 2;
           count < 7 && currCol - count2 >= 0 && currRow + count2 < ROW;
-          count2++) {
-            if (board[currRow + count2][currCol - count2] === 1) {
-              numberOfPlayer2++;
-              break;
-            } else if (board[currRow + count2][currCol - count2] === 2) {
-              numberOfBOT2++;
-            } else {
-              break
-            }
+          count2++
+        ) {
+          if (board[currRow + count2][currCol - count2] === 1) {
+            numberOfPlayer2++;
+            break;
+          } else if (board[currRow + count2][currCol - count2] === 2) {
+            numberOfBOT2++;
+          } else {
+            break;
           }
+        }
         break;
       }
     }
@@ -723,34 +746,34 @@ function Square(props) {
     }
 
     if (numberOfPlayer === 0) {
-      totalPoint += ARRDEFENSE[numberOfPlayer] * 2
-    }else {
-      totalPoint += ARRDEFENSE[numberOfPlayer]
+      totalPoint += ARRDEFENSE[numberOfPlayer] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[numberOfPlayer];
     }
 
     if (numberOfBOT >= numberOfBOT2) {
-      totalPoint -= 1
-    }else {
-      totalPoint -= 2
+      totalPoint -= 1;
+    } else {
+      totalPoint -= 2;
     }
     if (numberOfBOT === 4) {
-      totalPoint *= 2
+      totalPoint *= 2;
     }
 
     // totalPoint += ARRDEFENSE[numberOfPlayer];
     return totalPoint;
   };
   const gameEnd = () => {
-    dispatch(gameOver())
+    dispatch(gameOver());
   };
-  
+
   const handleClick = (row, col) => {
     if (!checkWin()) {
-      if(board[row][col] !== 0) {
-        return
+      if (board[row][col] !== 0) {
+        return;
       }
       const position = { row, col };
-      dispatch(ClickPlay(position))
+      dispatch(ClickPlay(position));
       // let flag = checkWin()
       // // debugger
       // console.log(flag);
@@ -758,11 +781,11 @@ function Square(props) {
         if (player === 1) {
           let move = findMoveAi();
           dispatch(ClickPlay(move));
-          checkWin()
+          checkWin();
         }
       }
-    };
-  }
+    }
+  };
 
   const checkWin = () => {
     if (numberOfmoves.length === COL * ROW) {
@@ -771,7 +794,7 @@ function Square(props) {
       });
       return true;
     }
-    let flag
+    let flag;
     numberOfmoves.forEach((move) => {
       if (
         duyetDoc(move.row, move.col, board[move.row][move.col]) ||
@@ -786,14 +809,13 @@ function Square(props) {
           : dispatch({
               type: "BOT",
             });
-        console.log('result true');
+        console.log("result true");
         // debugger
-        flag = true
+        flag = true;
         return true;
-      }else {
-        return false
+      } else {
+        return false;
       }
-
     });
     return flag || false;
   };
@@ -898,15 +920,15 @@ function Square(props) {
   };
 
   return (
-    <div className="square"
-    onClick={() => handleClick(row, col)}
-    >
-    {/* <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => botAuToPlay()}> */}
-      {value === 1 ? 
-        <img src={X} alt=""/> : 
-      value === 2 ? 
+    <div className="square" onClick={() => handleClick(row, col)}>
+      {/* <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => botAuToPlay()}> */}
+      {value === 1 ? (
+        <img src={X} alt="" />
+      ) : value === 2 ? (
         <img src={O} alt="" />
-      : ""}
+      ) : (
+        ""
+      )}
     </div>
   );
 }

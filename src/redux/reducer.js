@@ -4,7 +4,7 @@ const EMPTY = null;
 const BOARD_SIZE = 15;
 
 const initialState = {
-  start: true,
+  start: false,
   COL: BOARD_SIZE,
   ROW: BOARD_SIZE,
   player: PLAYER,
@@ -13,7 +13,7 @@ const initialState = {
     .map(() => Array(BOARD_SIZE).fill(0)),
   winner: null,
   numberOfmoves: [],
-  numberOfChangeMoves: []
+  numberOfChangeMoves: [],
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -25,10 +25,10 @@ const gameReducer = (state = initialState, action) => {
         const move = {
           row: action.payload.row,
           col: action.payload.col,
-          value: state.player
-        }
-        let listMove = state.numberOfmoves
-        listMove.push(move)
+          value: state.player,
+        };
+        let listMove = state.numberOfmoves;
+        listMove.push(move);
         return {
           ...state,
           board: newBoard,
@@ -38,13 +38,14 @@ const gameReducer = (state = initialState, action) => {
       }
       return { ...state };
     case "Draw":
-      return { ...state, winner: "Hòa cờ", start: false};
+      return { ...state, winner: "Hòa cờ" };
     case "Player":
-      return { ...state, winner: "You win", start: false };
+      return { ...state, winner: "You win" };
     case "BOT":
-      return { ...state, winner: "You lose", start: false };
+      return { ...state, winner: "You lose" };
     case "reset":
-      return {start: true,
+      return {
+        start: true,
         COL: BOARD_SIZE,
         ROW: BOARD_SIZE,
         player: PLAYER,
@@ -52,35 +53,49 @@ const gameReducer = (state = initialState, action) => {
           .fill()
           .map(() => Array(BOARD_SIZE).fill(0)),
         winner: null,
-        numberOfmoves: [],}
-      case "undo":
-        if(state.numberOfmoves.length > 0) {
-          let moveUndo
-          let newListChanges
-          let newBoard = state.board
-          for(let i = 0; i < 2; i++) {
-            moveUndo = state.numberOfmoves.pop()
-            newListChanges = state.numberOfChangeMoves
-            newListChanges.push(moveUndo)
-            newBoard[moveUndo.row][moveUndo.col] = 0
-          }
-          return {...state,board: newBoard ,numberOfChangeMoves: newListChanges}
+        numberOfmoves: [],
+      };
+    case "undo":
+      if (state.numberOfmoves.length > 0) {
+        let moveUndo;
+        let newListChanges;
+        let newBoard = state.board;
+        for (let i = 0; i < 2; i++) {
+          moveUndo = state.numberOfmoves.pop();
+          newListChanges = state.numberOfChangeMoves;
+          newListChanges.push(moveUndo);
+          newBoard[moveUndo.row][moveUndo.col] = 0;
         }
-        break
-      case "redo":
-        if(state.numberOfChangeMoves.length > 0 ) {
-          let newBoard = state.board
-          let listMove = state.numberOfmoves
-          let listMoveChange = state.numberOfChangeMoves
-          let moveRedo
-          for(let i = 0; i < 2; i++) {
-            moveRedo = listMoveChange.pop()
-            listMove.push(moveRedo)
-            newBoard[moveRedo.row][moveRedo.col] = moveRedo.value
-          }
-          return {...state, board: newBoard, numberOfmoves: listMove, numberOfChangeMoves: listMoveChange}
+        return {
+          ...state,
+          board: newBoard,
+          numberOfChangeMoves: newListChanges,
+        };
+      }
+      break;
+    case "redo":
+      if (state.numberOfChangeMoves.length > 0) {
+        let newBoard = state.board;
+        let listMove = state.numberOfmoves;
+        let listMoveChange = state.numberOfChangeMoves;
+        let moveRedo;
+        for (let i = 0; i < 2; i++) {
+          moveRedo = listMoveChange.pop();
+          listMove.push(moveRedo);
+          newBoard[moveRedo.row][moveRedo.col] = moveRedo.value;
         }
-        break
+        return {
+          ...state,
+          board: newBoard,
+          numberOfmoves: listMove,
+          numberOfChangeMoves: listMoveChange,
+        };
+      }
+      break;
+    case "startGame":
+      if (!state.start) {
+        return { ...state, start: true };
+      }
     default:
       return { ...state };
   }

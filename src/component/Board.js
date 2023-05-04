@@ -1,20 +1,38 @@
 import React from "react";
 import Square from "./Square";
+import carologo from "../assets/carologo.png";
+import { useDispatch, useSelector } from "react-redux";
 
-const Board = ({board}) => {
+const Board = ({ board }) => {
   const renderSquare = (row, col, value) => (
-    <Square 
-      value = {value}
-      row={row}
-      col={col}  />
-  )
+    <Square value={value} row={row} col={col} />
+  );
+  const dispatch = useDispatch();
+  const { start } = useSelector((state) => state.game);
+  const handleStart = () => {
+    dispatch({
+      type: "startGame",
+    });
+  };
   return (
     <div className="board">
+      {!start ? (
+        <div className="start">
+          <div className="logo">
+            <img src={carologo} alt="" />
+          </div>
+          <div className="buttons" onClick={handleStart}>
+            <button>BẮT ĐẦU</button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       {board?.map((row, rowIndex) => (
-        <div className="board-row" key={'row' + rowIndex}>
+        <div className="board-row" key={"row" + rowIndex}>
           {row?.map((value, colIndex) => (
             <React.Fragment key={colIndex}>
-            {renderSquare(rowIndex, colIndex, board[rowIndex][colIndex])}
+              {renderSquare(rowIndex, colIndex, board[rowIndex][colIndex])}
             </React.Fragment>
           ))}
         </div>
