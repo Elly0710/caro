@@ -13,18 +13,19 @@ const initialState = {
     .map(() => Array(BOARD_SIZE).fill(0)),
   winner: null,
   numberOfmoves: [],
+  numberOfChangeMoves: []
 };
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ClickPlay":
-      const newBoard = state.board;
+      let newBoard = state.board;
       if (newBoard[action.payload.row][action.payload.col] === 0) {
         newBoard[action.payload.row][action.payload.col] = state.player;
-        
         const move = {
           row: action.payload.row,
-          col: action.payload.col
+          col: action.payload.col,
+          value: state.player
         }
         let listMove = state.numberOfmoves
         listMove.push(move)
@@ -52,6 +53,34 @@ const gameReducer = (state = initialState, action) => {
           .map(() => Array(BOARD_SIZE).fill(0)),
         winner: null,
         numberOfmoves: [],}
+      case "undo":
+        if(state.numberOfmoves.length > 0) {
+          let moveUndo
+          let newListChanges
+          let newBoard = state.board
+          for(let i = 0; i < 2; i++) {
+            moveUndo = state.numberOfmoves.pop()
+            newListChanges = state.numberOfChangeMoves
+            newListChanges.push(moveUndo)
+            newBoard[moveUndo.row][moveUndo.col] = 0
+          }
+          return {...state,board: newBoard ,numberOfChangeMoves: newListChanges}
+        }
+        break
+      case "redo":
+        if(state.numberOfChangeMoves.length > 0 ) {
+          let newBoard = state.board
+          let listMove = state.numberOfmoves
+          let listMoveChange = state.numberOfChangeMoves
+          let moveRedo
+          for(let i = 0; i < 2; i++) {
+            moveRedo = listMoveChange.pop()
+            listMove.push(moveRedo)
+            newBoard[moveRedo.row][moveRedo.col] = moveRedo.value
+          }
+          return {...state, board: newBoard, numberOfmoves: listMove, numberOfChangeMoves: listMoveChange}
+        }
+        break
     default:
       return { ...state };
   }

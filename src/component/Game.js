@@ -12,6 +12,20 @@ function Game() {
       type: "reset"
     })
   }
+  const handleUndo = () => {
+    if (!winner){
+      dispatch({
+        type: "undo"
+      })  
+    }
+  }
+  const handleRedo = () => {
+    if (!winner) {
+      dispatch({
+        type: "redo"
+      })
+    }
+  }
   return (
     <div className="game">
       <div className="game-info">
@@ -23,8 +37,8 @@ function Game() {
         </div>       
         <div className="buttons">
         <button onClick={handleResetGame}>Reset game</button>
-        <button>Undo</button>
-        <button>Redu</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleRedo}>Redo</button>
         </div>
       </div>
       <div className="game-board">

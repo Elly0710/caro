@@ -740,17 +740,20 @@ function Square(props) {
   const gameEnd = () => {
     dispatch(gameOver())
   };
+  
   const handleClick = (row, col) => {
-    if (start) {
+    if (!checkWin()) {
       if(board[row][col] !== 0) {
         return
       }
       const position = { row, col };
       dispatch(ClickPlay(position))
+      // let flag = checkWin()
+      // // debugger
+      // console.log(flag);
       if (!checkWin()) {
         if (player === 1) {
           let move = findMoveAi();
-          console.log('hehe');
           dispatch(ClickPlay(move));
           checkWin()
         }
@@ -765,7 +768,7 @@ function Square(props) {
       });
       return true;
     }
-
+    let flag
     numberOfmoves.forEach((move) => {
       if (
         duyetDoc(move.row, move.col, board[move.row][move.col]) ||
@@ -780,11 +783,16 @@ function Square(props) {
           : dispatch({
               type: "BOT",
             });
+        console.log('result true');
+        // debugger
+        flag = true
         return true;
+      }else {
+        return false
       }
 
     });
-    return false;
+    return flag || false;
   };
 
   const duyetDoc = (currRow, currCol, currPlayer) => {
@@ -888,6 +896,7 @@ function Square(props) {
 
   return (
     <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => handleClick(row, col)}>
+    {/* <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => botAuToPlay()}> */}
       {value === 1 ? "X" : value === 2 ? "O" : ""}
     </div>
   );
