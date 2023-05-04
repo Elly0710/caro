@@ -2,6 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {ClickPlay, gameOver} from "../redux/action";
 // import gameOver from "../redux/action";
+import X from '../assets/x.png'
+import O from '../assets/o.png'
+
 function Square(props) {
   const { value, col, row } = props;
   const dispatch = useDispatch();
@@ -895,9 +898,15 @@ function Square(props) {
   };
 
   return (
-    <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => handleClick(row, col)}>
+    <div className="square"
+    onClick={() => handleClick(row, col)}
+    >
     {/* <div className={value === 1 ? "X square" : value === 2 ? "O square": "square"} onClick={() => botAuToPlay()}> */}
-      {value === 1 ? "X" : value === 2 ? "O" : ""}
+      {value === 1 ? 
+        <img src={X} alt=""/> : 
+      value === 2 ? 
+        <img src={O} alt="" />
+      : ""}
     </div>
   );
 }

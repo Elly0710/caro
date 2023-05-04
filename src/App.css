@@ -1,25 +1,18 @@
-
-
-.game {
-  display: flex;
-  width: 1200px;
-  margin: auto;
+*{
+  box-sizing: border-box;
 }
 
-.game-info {
+header {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex: 2;
-  border: 1px solid black;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 110px;
+  background: rgba(20, 112, 197, 1);
 }
 
-.logo {
-  width: 100px;
-  height: 100px;
-  /* flex: 1; */
+.header-logo {
+  width: 150px;
 }
 
 img {
@@ -28,48 +21,164 @@ img {
   object-fit: cover;
 }
 
-.status{
-  /* flex: 1; */
-  font-size: 24px;
+.header-buttons {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 5px;
+}
+.header-buttons button {
+  padding: 4px 10px;
+  background-color: rgba(16, 84, 147, 1);
+  color: white;
+  border: transparent;
 }
 
-.buttons {
+.game-body {
+  display: flex;
+  height: calc(100vh - 110px);
+}
+
+.body-left {
+  flex: 1.5;
+  padding: 10px;
+  background-color: rgba(121, 156, 198, 1);
+}
+
+.list-game{
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  border: none;
+  gap: 10px;
+  padding: 10px;
+  background-color: white;
+  height: 100%;
 }
 
-.game-board {
+.item-game{
+  width: 100%;
+  height: 120px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+
+.body-right {
   flex: 10;
-  /* margin: auto; */
+}
+
+.body-top {
+}
+.nav{
+  display: flex;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  font-size: larger;
+  font-weight: 400;
+  background: rgba(7, 43, 79, 1);
+  color: white;
+  padding: 10px;
+  border-right: 2px solid white;
+}
+
+.body-bottom {
+  display: flex;
+}
+
+.info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+.info-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  flex: 1;
+}
+
+.info-top button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  outline: none;
+  border: 2px solid white;
+  color: white;
+  background-color: greenyellow;
+}
+
+.info-top button i{
+  /* width: 40px;
+  height: 40px; */
+  font-size: 20px;
+}
+
+.info-avatar {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  margin: auto;
+  width: 80%;
+}
+
+.info-bottom {
+  margin: auto;
+  flex: 1;
+}
+
+.type{
+  width: 50px;
+  height: 50px;
+}
+
+.info .buttons {
+  display:  flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.info .buttons button {
+  width: 60%;
+  padding: 10px;
+  border: none;
+  background: orange;
+  border: 1px solid orangered;
+  border-radius: 5px;
+}
+
+.board {
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid orange;
+  margin-top: 2px;
 }
 
 .board-row {
-  width: 100%;
   display: flex;
-}
-.square {
-  display: flex;
-  width: 50px;
-  height: 50px;
-  justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  box-sizing: border-box;
-  /* pointer-events: none; */
+  justify-content: center;
 }
 
-.X{
-  font-size: 20px;
-  font-weight: bold;
-  color: green;
+.square {
+  width: 40px;
+  height: 40px;
+  border: 1px solid orange;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.O {
-  font-size: 20px;
-  font-weight: bold;
-  color: red;
+.square img {
 }
