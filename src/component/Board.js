@@ -1,6 +1,8 @@
 import React from "react";
 import Square from "./Square";
 import carologo from "../assets/carologo.png";
+import win from '../assets/win.png'
+import lose from '../assets/lose.png';
 import { useDispatch, useSelector } from "react-redux";
 
 const Board = ({ board }) => {
@@ -8,12 +10,17 @@ const Board = ({ board }) => {
     <Square value={value} row={row} col={col} />
   );
   const dispatch = useDispatch();
-  const { start } = useSelector((state) => state.game);
+  const { start, winner } = useSelector((state) => state.game);
   const handleStart = () => {
     dispatch({
       type: "startGame",
     });
   };
+  const handleReset = () => {
+    dispatch({
+      type: "reset"
+    })
+  }
   return (
     <div className="board">
       {!start ? (
@@ -26,7 +33,25 @@ const Board = ({ board }) => {
           </div>
         </div>
       ) : (
-        ""
+        winner === "You win" ?
+        <div className="start">
+          <div className="logo">
+            <img src={win} alt="" />
+          </div>
+          <div className="buttons" onClick={handleReset}>
+            <button>BẮT ĐẦU LẠI</button>
+          </div>
+        </div> :
+        winner === "You lose" ?
+        <div className="start">
+          <div className="logo">
+            <img src={lose} alt="" />
+          </div>
+          <div className="buttons" onClick={handleReset}>
+            <button>BẮT ĐẦU LẠI</button>
+          </div>
+        </div>
+        : ''
       )}
       {board?.map((row, rowIndex) => (
         <div className="board-row" key={"row" + rowIndex}>

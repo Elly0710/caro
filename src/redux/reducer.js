@@ -1,6 +1,5 @@
-const BOT = 2;
-const PLAYER = 1;
-const EMPTY = null;
+const BOT = 1;
+const PLAYER = -1;
 const BOARD_SIZE = 15;
 
 const initialState = {
@@ -32,7 +31,7 @@ const gameReducer = (state = initialState, action) => {
         return {
           ...state,
           board: newBoard,
-          player: state.player === PLAYER ? BOT : PLAYER,
+          player: -state.player,
           numberOfmoves: listMove,
         };
       }
@@ -45,7 +44,7 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, winner: "You lose" };
     case "reset":
       return {
-        start: true,
+        start: false,
         COL: BOARD_SIZE,
         ROW: BOARD_SIZE,
         player: PLAYER,
