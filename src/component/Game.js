@@ -99,10 +99,10 @@ function Game() {
             <Board board={board} />
             <div className="info info-right">
               <div className="info-top">
-                <button>
+                <button className="btn-grad-4">
                   <i className="fa-solid fa-left-long"></i>
                 </button>
-                <button>
+                <button className="btn-grad-4">
                   <i className="fa-solid fa-message"></i>
                 </button>
               </div>
