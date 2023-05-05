@@ -1,4 +1,4 @@
-const BOT = 1;
+// const BOT = 1;
 const PLAYER = -1;
 const BOARD_SIZE = 15;
 
@@ -95,6 +95,7 @@ const gameReducer = (state = initialState, action) => {
       if (!state.start) {
         return { ...state, start: true };
       }
+      break
     default:
       return { ...state };
   }

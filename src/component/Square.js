@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClickPlay, gameOver } from "../redux/action";
+import { ClickPlay } from "../redux/action";
 // import gameOver from "../redux/action";
 import X from "../assets/x.png";
 import O from "../assets/o.png";
@@ -8,7 +8,7 @@ import O from "../assets/o.png";
 function Square(props) {
   const { value, col, row } = props;
   const dispatch = useDispatch();
-  const { numberOfmoves, player, ROW, COL, board, start } = useSelector(
+  const { numberOfmoves, player, ROW, COL, board } = useSelector(
     (state) => state.game
   );
   const ARRATTACK = [0, 64, 4096, 262144, 16777216, 1073741824];
@@ -23,16 +23,15 @@ function Square(props) {
         let attackPoint = 0
         let defensePoint = 0
         if (board[i][j] === 0) {
-          attackPoint =
-            attackPoint_duyetDoc(i, j) +
-            attackPoint_duyetNgang(i, j) +
-            attackPoint_duyetCheoXuoi(i, j) +
-            attackPoint_duyetCheoNguoc(i, j);
-          defensePoint =
-            defensePoint_duyetDoc(i, j) +
-            defensePoint_duyetNgang(i, j) +
-            defensePoint_duyetCheoXuoi(i, j) +
-            defensePoint_duyetCheoNguoc(i, j);
+          attackPoint += attackPoint_duyetDoc(i, j)
+          attackPoint += attackPoint_duyetNgang(i, j)
+          attackPoint += attackPoint_duyetCheoXuoi(i, j)
+          attackPoint += attackPoint_duyetCheoNguoc(i, j)
+          
+          defensePoint += defensePoint_duyetDoc(i, j)
+          defensePoint += defensePoint_duyetNgang(i, j) 
+          defensePoint += defensePoint_duyetCheoXuoi(i, j)
+          defensePoint += defensePoint_duyetCheoNguoc(i, j);
 
           if (attackPoint > defensePoint) {
             if (maxPoint < attackPoint) {
@@ -164,17 +163,21 @@ function Square(props) {
     for (let count = 1; count < 6 && currCol + count < COL; count++) {
       if (board[currRow][currCol + count] === 1) {
         soQuanTa++;
-      } else if (board[currRow][currCol + count] === -1) {
+      }
+      if (board[currRow][currCol + count] === -1) {
         soQuanDich++;
         break;
-      } else {
+      }
+      if (board[currRow][currCol + count] === 0){
         for (let count2 = 2; count2 < 7 && currCol + count2 < COL; count2++) {
           if (board[currRow][currCol + count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow][currCol + count2] === -1) {
+          }
+          if (board[currRow][currCol + count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          } 
+          if (board[currRow][currCol + count2] === 0) {
             break;
           }
         }
@@ -184,17 +187,21 @@ function Square(props) {
     for (let count = 1; count < 6 && currCol - count >= 0; count++) {
       if (board[currRow][currCol - count] === 1) {
         soQuanTa++;
-      } else if (board[currRow][currCol - count] === -1) {
+      }
+      if (board[currRow][currCol - count] === -1) {
         soQuanDich++;
         break;
-      } else {
+      }
+      if (board[currRow][currCol - count] === 0) {
         for (let count2 = 2; count2 < 7 && currCol - count2 >= 0; count2++) {
           if (board[currRow][currCol - count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow][currCol - count2] === -1) {
+          }
+          if (board[currRow][currCol - count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          }
+          if(board[currRow][currCol - count2] === 0){
             break;
           }
         }
@@ -250,56 +257,48 @@ function Square(props) {
     let soQuanTa2 = 0;
     let soQuanDich2 = 0;
 
-    for (
-      let count = 1;
-      count < 6 && currCol + count < COL && currRow + count < ROW;
-      count++
-    ) {
+    for (let count = 1; count < 6 && currCol + count < COL && currRow + count < ROW; count++) {
       if (board[currRow + count][currCol + count] === 1) {
         soQuanTa++;
-      } else if (board[currRow + count][currCol + count] === -1) {
+      }
+      if (board[currRow + count][currCol + count] === -1) {
         soQuanDich++;
         break;
-      } else {
-        for (
-          let count2 = 2;
-          count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW;
-          count2++
-        ) {
+      }
+      if (board[currRow + count][currCol + count] === 0) {
+        for ( let count2 = 2; count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol + count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow + count2][currCol + count2] === -1) {
+          }
+          if (board[currRow + count2][currCol + count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          } 
+          if(board[currRow + count2][currCol + count2] === 0) {
             break;
           }
         }
         break;
       }
     }
-    for (
-      let count = 1;
-      count < 6 && currCol - count >= 0 && currRow - count >= 0;
-      count++
-    ) {
+    for ( let count = 1; count < 6 && currCol - count >= 0 && currRow - count >= 0; count++) {
       if (board[currRow - count][currCol - count] === 1) {
         soQuanTa++;
-      } else if (board[currRow - count][currCol - count] === -1) {
+      }
+      if (board[currRow - count][currCol - count] === -1) {
         soQuanDich++;
         break;
-      } else {
-        for (
-          let count2 = 2;
-          count2 < 7 && currCol - count2 >= 0 && currRow - count2 >= 0;
-          count2++
-        ) {
+      } 
+      if(board[currRow - count][currCol - count] === 0) {
+        for ( let count2 = 2; count2 < 7 && currCol - count2 >= 0 && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol - count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow - count2][currCol - count2] === -1) {
+          }
+          if (board[currRow - count2][currCol - count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          }
+          if (board[currRow - count2][currCol - count2] === 0) {
             break;
           }
         }
@@ -355,56 +354,48 @@ function Square(props) {
     let soQuanDich = 0;
     let soQuanTa2 = 0;
     let soQuanDich2 = 0;
-    for (
-      let count = 1;
-      count < 6 && currCol + count < COL && currRow - count >= 0;
-      count++
-    ) {
+    for ( let count = 1; count < 6 && currCol + count < COL && currRow - count >= 0; count++) {
       if (board[currRow - count][currCol + count] === 1) {
         soQuanTa++;
-      } else if (board[currRow - count][currCol + count] === -1) {
+      }
+      if (board[currRow - count][currCol + count] === -1) {
         soQuanDich++;
         break;
-      } else {
-        for (
-          let count2 = 2;
-          currCol + count2 < COL && currRow - count2 >= 0;
-          count2++
-        ) {
+      }
+      if(board[currRow - count][currCol + count] === 0) {
+        for ( let count2 = 2; currCol + count2 < COL && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol + count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow - count2][currCol + count2] === -1) {
+          }
+          if (board[currRow - count2][currCol + count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          }
+          if (board[currRow - count2][currCol + count2] === 0) {
             break;
           }
         }
         break;
       }
     }
-    for (
-      let count = 1;
-      count < 6 && currCol - count >= 0 && currRow + count < ROW;
-      count++
-    ) {
+    for ( let count = 1; count < 6 && currCol - count >= 0 && currRow + count < ROW; count++) {
       if (board[currRow + count][currCol - count] === 1) {
         soQuanTa++;
-      } else if (board[currRow + count][currCol - count] === -1) {
+      }
+      if (board[currRow + count][currCol - count] === -1) {
         soQuanDich++;
         break;
-      } else {
-        for (
-          let count2 = 2;
-          count2 < 7 && currCol - count2 >= 0 && currRow + count2 < ROW;
-          count2++
-        ) {
+      }
+      if (board[currRow + count][currCol - count] === 0) {
+        for (let count2 = 2; count2 < 7 && currCol - count2 >= 0 && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol - count2] === 1) {
             soQuanTa2++;
-          } else if (board[currRow + count2][currCol - count2] === -1) {
+          }
+          if (board[currRow + count2][currCol - count2] === -1) {
             soQuanDich2++;
             break;
-          } else {
+          }
+          if (board[currRow + count2][currCol - count2] === 0) {
             break;
           }
         }
@@ -465,16 +456,20 @@ function Square(props) {
       if (board[currRow + count][currCol] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow + count][currCol] === -1) {
+      }
+      if (board[currRow + count][currCol] === -1) {
         soQuanDich++;
-      } else {
+      } 
+      if (board[currRow + count][currCol] === 0){
         for (let count2 = 2; count2 < 7 && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow + count2][currCol] === -1) {
+          }
+          if (board[currRow + count2][currCol] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow + count2][currCol] === 0){
             break;
           }
         }
@@ -485,16 +480,20 @@ function Square(props) {
       if (board[currRow - count][currCol] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow - count][currCol] === -1) {
+      }
+      if (board[currRow - count][currCol] === -1) {
         soQuanDich++;
-      } else {
+      }
+      if (board[currRow - count][currCol] === 0) {
         for (let count2 = 2; count2 < 7 && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow - count2][currCol] === -1) {
+          }
+          if (board[currRow - count2][currCol] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow - count2][currCol] === 0){
             break;
           }
         }
@@ -510,6 +509,12 @@ function Square(props) {
       totalPoint += ARRDEFENSE[soQuanDich] * 2;
     } else {
       totalPoint += ARRDEFENSE[soQuanDich];
+    }
+
+    if (soQuanTa2 === 0) {
+      totalPoint += ARRDEFENSE[soQuanDich2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[soQuanDich2];
     }
 
     if (soQuanDich >= soQuanDich2) {
@@ -535,16 +540,20 @@ function Square(props) {
       if (board[currRow][currCol + count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow][currCol + count] === -1) {
+      }
+      if (board[currRow][currCol + count] === -1) {
         soQuanDich++;
-      } else {
+      }
+      if (board[currRow][currCol + count] === 0){
         for (let count2 = 2; count2 < 7 && currCol + count2 < COL; count2++) {
           if (board[currRow][currCol + count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow][currCol + count2] === -1) {
+          }
+          if (board[currRow][currCol + count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow][currCol + count2] === 0){
             break;
           }
         }
@@ -555,16 +564,20 @@ function Square(props) {
       if (board[currRow][currCol - count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow][currCol - count] === -1) {
+      }
+      if (board[currRow][currCol - count] === -1) {
         soQuanDich++;
-      } else {
+      }
+      if (board[currRow][currCol - count] === 0){
         for (let count2 = 1; count2 < 7 && currCol - count2 >= 0; count2++) {
           if (board[currRow][currCol - count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow][currCol - count2] === -1) {
+          }
+          if (board[currRow][currCol - count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow][currCol - count2] === 0) {
             break;
           }
         }
@@ -580,6 +593,11 @@ function Square(props) {
       totalPoint += ARRDEFENSE[soQuanDich] * 2;
     } else {
       totalPoint += ARRDEFENSE[soQuanDich];
+    }
+    if (soQuanTa2 === 0) {
+      totalPoint += ARRDEFENSE[soQuanDich2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[soQuanDich2];
     }
 
     if (soQuanDich >= soQuanDich2) {
@@ -601,56 +619,48 @@ function Square(props) {
     let soQuanDich = 0;
     let soQuanTa2 = 0;
     let soQuanDich2 = 0;
-    for (
-      let count = 1;
-      count < 6 && currCol + count < COL && currRow + count < ROW;
-      count++
-    ) {
+    for (let count = 1; count < 6 && currCol + count < COL && currRow + count < ROW; count++) {
       if (board[currRow + count][currCol + count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow + count][currCol + count] === -1) {
+      }
+      if (board[currRow + count][currCol + count] === -1) {
         soQuanDich++;
-      } else {
-        for (
-          let count2 = 2;
-          count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW;
-          count2++
-        ) {
+      }
+      if (board[currRow + count][currCol + count] === 0){
+        for (let count2 = 2; count2 < 7 && currCol + count2 < COL && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol + count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow + count2][currCol + count2] === -1) {
+          }
+          if (board[currRow + count2][currCol + count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow + count2][currCol + count2] === 0) {
             break;
           }
         }
         break;
       }
     }
-    for (
-      let count = 1;
-      count < 6 && currCol - count >= 0 && currRow - count >= 0;
-      count++
-    ) {
+    for ( let count = 1; count < 6 && currCol - count >= 0 && currRow - count >= 0; count++) {
       if (board[currRow - count][currCol - count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow - count][currCol - count] === -1) {
+      }
+      if (board[currRow - count][currCol - count] === -1) {
         soQuanDich++;
-      } else {
-        for (
-          let count2 = 2;
-          count < 7 && currCol - count2 >= 0 && currRow - count2 >= 0;
-          count2++
-        ) {
+      }
+      if (board[currRow - count][currCol - count] === 0){
+        for (let count2 = 2; count < 7 && currCol - count2 >= 0 && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol - count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow - count2][currCol - count2] === -1) {
+          }
+          if (board[currRow - count2][currCol - count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow - count2][currCol - count2] === 0) {
             break;
           }
         }
@@ -665,6 +675,12 @@ function Square(props) {
       totalPoint += ARRDEFENSE[soQuanDich] * 2;
     } else {
       totalPoint += ARRDEFENSE[soQuanDich];
+    }
+
+    if (soQuanTa2 === 0) {
+      totalPoint += ARRDEFENSE[soQuanDich2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[soQuanDich2];
     }
 
     if (soQuanDich >= soQuanDich2) {
@@ -686,56 +702,48 @@ function Square(props) {
     let soQuanDich = 0;
     let soQuanTa2 = 0;
     let soQuanDich2 = 0;
-    for (
-      let count = 1;
-      count < 6 && currCol + count < COL && currRow - count >= 0;
-      count++
-    ) {
+    for (let count = 1; count < 6 && currCol + count < COL && currRow - count >= 0; count++) {
       if (board[currRow - count][currCol + count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow - count][currCol + count] === -1) {
+      }
+      if (board[currRow - count][currCol + count] === -1) {
         soQuanDich++;
-      } else {
-        for (
-          let count2 = 2;
-          count2 < 7 && currCol + count2 < COL && currRow - count2 >= 0;
-          count2++
-        ) {
+      }
+      if (board[currRow - count][currCol + count] === 0){
+        for (let count2 = 2; count2 < 7 && currCol + count2 < COL && currRow - count2 >= 0; count2++) {
           if (board[currRow - count2][currCol + count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow - count2][currCol + count2] === -1) {
+          }
+          if (board[currRow - count2][currCol + count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow - count2][currCol + count2] === 0){
             break;
           }
         }
         break;
       }
     }
-    for (
-      let count = 1;
-      count < 6 && currCol - count >= 0 && currRow + count < ROW;
-      count++
-    ) {
+    for (let count = 1; count < 6 && currCol - count >= 0 && currRow + count < ROW; count++) {
       if (board[currRow + count][currCol - count] === 1) {
         soQuanTa++;
         break;
-      } else if (board[currRow + count][currCol - count] === -1) {
+      }
+      if (board[currRow + count][currCol - count] === -1) {
         soQuanDich++;
-      } else {
-        for (
-          let count2 = 2;
-          count < 7 && currCol - count2 >= 0 && currRow + count2 < ROW;
-          count2++
-        ) {
+      }
+      if (board[currRow + count][currCol - count] === 0){
+        for (let count2 = 2; count < 7 && currCol - count2 >= 0 && currRow + count2 < ROW; count2++) {
           if (board[currRow + count2][currCol - count2] === 1) {
             soQuanTa2++;
             break;
-          } else if (board[currRow + count2][currCol - count2] === -1) {
+          }
+          if (board[currRow + count2][currCol - count2] === -1) {
             soQuanDich2++;
-          } else {
+          }
+          if (board[currRow + count2][currCol - count2] === 0) {
             break;
           }
         }
@@ -751,6 +759,12 @@ function Square(props) {
       totalPoint += ARRDEFENSE[soQuanDich] * 2;
     } else {
       totalPoint += ARRDEFENSE[soQuanDich];
+    }
+
+    if (soQuanTa2 === 0) {
+      totalPoint += ARRDEFENSE[soQuanDich2] * 2;
+    } else {
+      totalPoint += ARRDEFENSE[soQuanDich2];
     }
 
     if (soQuanDich >= soQuanDich2) {
