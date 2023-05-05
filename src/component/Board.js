@@ -39,7 +39,7 @@ const Board = ({ board }) => {
             <img src={win} alt="" />
           </div>
           <div className="buttons" onClick={handleReset}>
-            <button>BẮT ĐẦU LẠI</button>
+            <button className="btn-grad-1">BẮT ĐẦU LẠI</button>
           </div>
         </div> :
         winner === "You lose" ?
@@ -48,7 +48,7 @@ const Board = ({ board }) => {
             <img src={lose} alt="" />
           </div>
           <div className="buttons" onClick={handleReset}>
-            <button>BẮT ĐẦU LẠI</button>
+            <button className="btn-grad-1">BẮT ĐẦU LẠI</button>
           </div>
         </div>
         : ''
