@@ -29,7 +29,7 @@ const Board = ({ board }) => {
             <img src={carologo} alt="" />
           </div>
           <div className="buttons" onClick={handleStart}>
-            <button>BẮT ĐẦU</button>
+            <button className="btn-grad-1">BẮT ĐẦU</button>
           </div>
         </div>
       ) : (

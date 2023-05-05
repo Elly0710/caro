@@ -42,8 +42,8 @@ function Game() {
           <img src={logo} alt="" />
         </div>
         <div className="header-buttons">
-          <button>Đăng nhập</button>
-          <button>Đăng ký</button>
+          <button className="btn-grad">Đăng nhập</button>
+          <button className="btn-grad">Đăng ký</button>
         </div>
       </header>
       <div className="game-body">
@@ -69,12 +69,12 @@ function Game() {
         <div className="body-right">
           <div className="body-top">
             <div className="nav">
-              <div className="nav-item">Đại Sảnh</div>
-              <div className="nav-item">Tin Tức</div>
-              <div className="nav-item">Mobile</div>
-              <div className="nav-item">Game</div>
-              <div className="nav-item">Hỗ Trợ</div>
-              <div className="nav-item">Nạp Tiền</div>
+              <div className="nav-item btn-grad-3">Đại Sảnh</div>
+              <div className="nav-item btn-grad-3">Tin Tức</div>
+              <div className="nav-item btn-grad-3">Mobile</div>
+              <div className="nav-item btn-grad-3">Game</div>
+              <div className="nav-item btn-grad-3">Hỗ Trợ</div>
+              <div className="nav-item btn-grad-3">Nạp Tiền</div>
             </div>
           </div>
           <div className="body-bottom">
@@ -91,9 +91,9 @@ function Game() {
                 </div>
               </div>
               <div className="buttons">
-                <button onClick={handleResetGame}>Reset game</button>
-                <button onClick={handleUndo}>Undo</button>
-                <button onClick={handleRedo}>Redo</button>
+                <button className="btn-grad-2" onClick={handleResetGame}>Reset game</button>
+                <button className="btn-grad-2" onClick={handleUndo}>Undo</button>
+                <button className="btn-grad-2" onClick={handleRedo}>Redo</button>
               </div>
             </div>
             <Board board={board} />

@@ -8,7 +8,9 @@ header {
   justify-content: space-between;
   padding: 0 20px;
   height: 110px;
-  background: rgba(20, 112, 197, 1);
+  /* background: rgba(20, 112, 197, 1); */
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
 }
 
 .header-logo {
@@ -28,11 +30,27 @@ img {
 }
 
 .header-buttons button {
-  padding: 4px 10px;
-  background-color: rgba(16, 84, 147, 1);
-  color: white;
-  border: transparent;
+  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5  51%, #00d2ff  100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+  outline: none;
+  border: none;
 }
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 
 .game-body {
   display: flex;
@@ -147,14 +165,14 @@ img {
   padding: 20px;
 }
 
-.info .buttons button {
+/* .info .buttons button {
   width: 60%;
   padding: 10px;
   border: none;
   background: orange;
   border: 1px solid orangered;
   border-radius: 5px;
-}
+} */
 
 .board {
   flex: 8;
@@ -208,7 +226,7 @@ img {
   margin: auto;
   text-align: center;
 }
-
+/* 
 .start .buttons button {
   border-radius: 5px;
   border: none;
@@ -217,6 +235,65 @@ img {
   padding: 20px 40px;
   color: white;
   background: greenyellow;
+} */
+
+         
+.btn-grad-1 {
+  background-image: linear-gradient(to right, #00C9FF 0%, #92FE9D  51%, #00C9FF  100%);
+  padding: 15px 45px;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
 }
 
-.square img {}
+.btn-grad-1:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+         
+.btn-grad-2 {
+  background-image: linear-gradient(to right, #C02425 0%, #F0CB35  51%, #C02425  100%);
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  /* display: block; */
+  /* width: fit-content; */
+  width: 80%;
+  border: none;
+}
+
+.btn-grad-2:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+         
+.btn-grad-3 {
+  background-image: linear-gradient(to right, #56CCF2 0%, #2F80ED  51%, #56CCF2  100%);
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  /* box-shadow: 0 0 20px #eee; */
+}
+
+.btn-grad-3:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
